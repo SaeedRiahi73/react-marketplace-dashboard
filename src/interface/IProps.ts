@@ -19,7 +19,10 @@ export interface ISelectedProps {
   items: ISelected[]
 }
 
-export interface ISpinnerProps { text: string; }
+export interface ISpinnerProps {
+  text: string;
+  overlay?: boolean;
+}
 
 export interface INvabarAddAndEditProps {
   title: string,
