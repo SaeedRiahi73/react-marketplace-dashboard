@@ -96,10 +96,9 @@ const useAddProduct = (): IUseAddProductReturn => {
         }
 
         try {
-            console.log(productFormData);
-            var r = await setProduct(productFormData).unwrap();
-            console.log(r);
 
+            await setProduct(productFormData).unwrap();
+            
             const toast: IToast = {
                 status: typeToastEnum.success,
                 message: "محصول جدید اضافه شد.‍"

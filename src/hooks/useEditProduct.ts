@@ -15,6 +15,7 @@ const useEditProduct = () => {
     const [error, setError] = useState<string>("");
     const [previewUrl, setPreviewUrl] = useState<string>("");
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const [removeImage, setRemoveImage] = useState<boolean>(false);
     const BASE_URL = import.meta.env.VITE_BASE_URL_localhostApi;
 
 
@@ -45,10 +46,12 @@ const useEditProduct = () => {
         setImageFile(null);
         setPreviewUrl("");
         setValue("fileName", "");
+        setRemoveImage(true);
     };
 
     useEffect(() => {
         if (product) {
+            setRemoveImage(false);
             setValue("status", product.status);
             setValue("price", product.price);
             setValue("quantity", product.quantity);
@@ -81,6 +84,7 @@ const useEditProduct = () => {
             else {
                 setError("");
                 setImageFile(file);
+                setRemoveImage(false);
                 setPreviewUrl(URL.createObjectURL(file));
                 // try {
                 //     const base64String = await fileToBase64(file);
@@ -114,6 +118,7 @@ const useEditProduct = () => {
         productFormData.append("price", data.price.toString());
         productFormData.append("quantity", data.quantity.toString());
         productFormData.append("status", data.status.toString());
+        productFormData.append("RemoveImage", removeImage.toString());
 
         if (imageFile) {
 
