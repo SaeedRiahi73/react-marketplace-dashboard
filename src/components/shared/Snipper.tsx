@@ -1,8 +1,8 @@
 import { ISpinnerProps } from "@/interface/IProps";
 
-const Spinner: React.FC<ISpinnerProps> = ({ text }) => {
-  return (
-    <div className="relative my-36 p-4 mx-auto z-10 flex flex-col items-center bg-white shadow-lg rounded-2xl text-center">
+const Spinner: React.FC<ISpinnerProps> = ({ text, overlay = false }) => {
+  const spinnerContent = (
+    <div className={`${overlay ? "p-4" : "relative my-36 p-4 mx-auto"} z-10 flex flex-col items-center bg-white shadow-lg rounded-2xl text-center`}>
       <div className="flex flex-col justify-center items-center mt-2 gap-3">
         <div>
           <div className="loader"></div>
@@ -14,6 +14,16 @@ const Spinner: React.FC<ISpinnerProps> = ({ text }) => {
       </div>
     </div>
   );
+
+  if (overlay) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
+        {spinnerContent}
+      </div>
+    );
+  }
+
+  return spinnerContent;
 };
 
 export default Spinner;

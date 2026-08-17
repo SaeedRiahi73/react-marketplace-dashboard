@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently --prefix \"[{name}]\" -n \"VITE,BACKEND\" \"vite --port 3000\" \"cd server && npm start\"",
+    "dev": "vite --port 3000",
+    "dev:json-server": "concurrently --prefix \"[{name}]\" -n \"VITE,BACKEND\" \"vite --port 3000\" \"cd server && npm start\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

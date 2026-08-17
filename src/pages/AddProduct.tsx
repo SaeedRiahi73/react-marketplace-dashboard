@@ -22,7 +22,7 @@ const AddProduct: React.FC = () => {
 
   return (
     <>
-      {isLoading && <Spinner text={"لطفا صبر کنید😊"} />}
+      {isLoading && <Spinner text={"لطفا صبر کنید😊"} overlay />}
       <Helmet>
         <title>Add Product</title>
       </Helmet>
