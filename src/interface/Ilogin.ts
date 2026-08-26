@@ -1,4 +1,6 @@
 import { FormikProps } from "formik";
+import { IAuthSession } from "@/interface/IAuth";
+import { IResultInfo } from "@/interface/IResultInfo";
 
 
 export interface IUserlogin {
@@ -7,25 +9,14 @@ export interface IUserlogin {
     rememberMe: boolean
 }
 
-export interface IApiResponseLogin {
-    isSuccess: boolean,
-    message: string,
-    errors: string[],
-    data: TokenData
-}
-
-interface TokenData {
-    token: string,
-    refreshToken: string,
-    expireRefreshToken: string,
-    tokenType: string,
-    expireIn: string;
-}
+export interface IApiResponseLogin extends IResultInfo<IAuthSession> {}
 
 export interface IUseLoginFormReturn{
     visibilityPassword:boolean ,
     setVisibilityPassword:React.Dispatch<React.SetStateAction<boolean>>,
     isLoading:boolean,
+    isDemoLoginLoading:boolean,
+    handleDemoLogin:()=>Promise<void>,
     formik:FormikProps<IUserlogin>,
     canEnter:boolean,
 }

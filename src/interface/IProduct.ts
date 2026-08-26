@@ -38,7 +38,11 @@ export interface IDetailAddProduct {
   errors: FieldErrors<productFormvalue>;
 }
 
-export interface IImageProduct {
+export interface IProductSubmitProps {
+  canSubmit?: boolean;
+}
+
+export interface IImageProduct extends IProductSubmitProps {
   previewUrl: string,
   setPreviewUrl: React.Dispatch<React.SetStateAction<string>>,
   handleRemoveImage?: () => void,
@@ -72,6 +76,7 @@ export interface IUseConfirmDeleteProductProps extends Pick<IConfirmDeleteProduc
 
 export interface IuseConfirmDeleteProduct {
   isLoading: boolean,
+  canDeleteProduct: boolean,
   open: boolean,
   setOpen: React.Dispatch<React.SetStateAction<boolean>>,
   handleDelete: () => Promise<void>

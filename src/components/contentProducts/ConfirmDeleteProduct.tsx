@@ -18,13 +18,25 @@ const ConfirmDeleteProduct: React.FC<IConfirmDeleteProductProps> = ({
   className,
 }) => {
 
-  const {isLoading,handleDelete,open,setOpen} = useConfirmDeleteProduct({id});
+  const {isLoading,canDeleteProduct,handleDelete,open,setOpen} = useConfirmDeleteProduct({id});
 
   return (
     <>
       {isLoading && <Spinner text={"لطفا صبر کنید..."} />}
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger className={className}>{children}</PopoverTrigger>
+      <Popover
+        open={canDeleteProduct && open}
+        onOpenChange={(nextOpen) => {
+          if (canDeleteProduct) setOpen(nextOpen);
+        }}
+      >
+        <PopoverTrigger
+          asChild
+          disabled={!canDeleteProduct}
+          title={!canDeleteProduct ? "شما اجازه حذف محصول را ندارید" : undefined}
+          className={className}
+        >
+          {children}
+        </PopoverTrigger>
         <PopoverContent className="w-[240px] gap-3 p-2 rounded-lg shadow-md ">
           <Command>
             <CommandList>

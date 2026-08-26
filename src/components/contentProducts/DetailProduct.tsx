@@ -1,7 +1,8 @@
 import { Button, Input, Label, Textarea } from "@/components/ui";
+import { IProductSubmitProps } from "@/interface/IProduct";
 import { useFormContext } from "react-hook-form";
 
-const DetailProduct: React.FC = () => {
+const DetailProduct: React.FC<IProductSubmitProps> = ({ canSubmit = true }) => {
 
   const { register, formState: { errors } } = useFormContext();
   return (
@@ -87,7 +88,9 @@ const DetailProduct: React.FC = () => {
 
       <Button
         type="submit"
-        className="hidden w-full tablet:flex bg-selfit-500 text-selfit-800"
+        disabled={!canSubmit}
+        title={!canSubmit ? "نسخه آزمایشی اجازه ذخیره محصول ندارد" : undefined}
+        className="hidden w-full tablet:flex bg-selfit-500 text-selfit-800 disabled:cursor-not-allowed disabled:opacity-50"
       >
         ذخیره محصول
       </Button>

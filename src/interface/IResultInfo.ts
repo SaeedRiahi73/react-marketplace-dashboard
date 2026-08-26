@@ -1,6 +1,7 @@
 export interface IResultInfo<T> {
-    data: T;
     isSuccess: boolean;
-    message?: string;
-    errors?: string[];
+    status: number;
+    message: string;
+    data: T;
+    errors: string[] | null;
 }
