@@ -7,7 +7,7 @@ import { useFormContext } from "react-hook-form";
 import { statusProductEnum } from "@/enums/statusProductEnum";
 
 
-const ImageProduct: React.FC<IImageProduct> = ({ handleFileChange, handleRemoveImage, previewUrl, setPreviewUrl, error, status }) => {
+const ImageProduct: React.FC<IImageProduct> = ({ handleFileChange, handleRemoveImage, previewUrl, setPreviewUrl, error, status, canSubmit = true }) => {
     const { setValue, formState: { errors } } = useFormContext();
 
     return (
@@ -110,7 +110,9 @@ const ImageProduct: React.FC<IImageProduct> = ({ handleFileChange, handleRemoveI
                 <hr className="tablet:hidden my-3" />
                 <Button
                     type="submit"
-                    className="w-full tablet:hidden bg-selfit-500 text-selfit-800"
+                    disabled={!canSubmit}
+                    title={!canSubmit ? "نسخه آزمایشی اجازه ذخیره محصول ندارد" : undefined}
+                    className="w-full tablet:hidden bg-selfit-500 text-selfit-800 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                     ذخیره محصول
                 </Button>

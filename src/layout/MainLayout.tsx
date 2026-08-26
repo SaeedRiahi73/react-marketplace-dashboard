@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Sidbar from "../components/contentSidbar/Sidbar";
 import useIsLogin from "@/hooks/useIsLogin";
+import DemoModeBanner from "@/components/shared/DemoModeBanner";
 
 const MainLayout: React.FC = () => {
   const isLogin = useIsLogin();
@@ -18,6 +19,7 @@ const MainLayout: React.FC = () => {
         <div className="flex flex-grow bg-lightGray-50 h-screen">
           {/* <Navbar /> */}
           <main className="flex flex-col w-full">
+            <DemoModeBanner />
             <Outlet />
           </main>
           {/* <Footer /> */}

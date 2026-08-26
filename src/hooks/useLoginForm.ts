@@ -1,13 +1,12 @@
-import { useLoginMutation } from "@/api/authApiSlice";
+import { useDemoLoginMutation, useLoginMutation } from "@/api/authApiSlice";
 import { IUseLoginFormReturn, IUserlogin } from "@/interface/Ilogin";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import { loginSchema } from "@/validation/loginValidation";
-import { setToken } from "@/features/authSlice";
-import Cookies from "js-cookie";
+import { setSession } from "@/features/authSlice";
+import { saveAuthSession } from "@/utility/authSessionStorage";
 
 
 const useLoginForm = (): IUseLoginFormReturn => {
@@ -15,6 +14,7 @@ const useLoginForm = (): IUseLoginFormReturn => {
     const [visibilityPassword, setVisibilityPassword] = useState<boolean>(false);
 
     const [login, { isLoading }] = useLoginMutation();
+    const [demoLogin, { isLoading: isDemoLoginLoading }] = useDemoLoginMutation();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -26,42 +26,56 @@ const useLoginForm = (): IUseLoginFormReturn => {
             rememberMe: false,
         },
         validationSchema: loginSchema,
-        onSubmit: async (values: IUserlogin, { resetForm }) => {
+        onSubmit: async (values: IUserlogin, { setFieldValue }) => {
             try {
                 // const myJosn: string = JSON.stringify(values);
                 const result = await login(values).unwrap();
 
                 if (result.isSuccess) {
-                    if (values.rememberMe) {
-                        Cookies.set("token", result.data.token, {
-                            expires: 5, // expires in 5 day
-                            path: "/", // available throughout the entire site
-                        });
-                    }
-                    sessionStorage.setItem("token", result.data.token);
-                    dispatch(setToken(result.data.token));
+                    saveAuthSession(result.data, values.rememberMe);
+                    dispatch(setSession(result.data));
 
                     navigate("/");
                 } else {
-                    const errorMsg: string = result.errors?.[0] || result.message || "اطلاعات ورود نادرست است.";
-                    toast.error(errorMsg, { position: "top-left" })
+                    if (result.status === 400 || result.status === 401) {
+                        await setFieldValue("password", "");
+                    }
                 }
-            } catch (error: any) {
-                console.error("Failed to login:", error);
-                const serverError: string = error?.data?.errors?.[0] || "ارتباط با سرور برقرار نشد.";
-                toast.error(serverError, {
-                    position: "top-left",
-                });
-                resetForm();
+            } catch (error: unknown) {
+                const errorStatus = typeof error === "object" && error !== null && "status" in error
+                    ? (error as { status: unknown }).status
+                    : null;
+
+                if (errorStatus === 400 || errorStatus === 401) {
+                    await setFieldValue("password", "");
+                }
             }
         },
     });
 
     const canEnter = formik.isValid && formik.dirty;
 
+    const handleDemoLogin = async (): Promise<void> => {
+        try {
+            const result = await demoLogin().unwrap();
+
+            if (result.isSuccess) {
+                saveAuthSession(result.data, false);
+                dispatch(setSession(result.data));
+                navigate("/");
+                return;
+            }
+
+        } catch {
+            // پیام خطای API به‌صورت سراسری در apiSlice نمایش داده می‌شود.
+        }
+    };
+
     return {
         canEnter,
         formik,
+        handleDemoLogin,
+        isDemoLoginLoading,
         isLoading,
         setVisibilityPassword,
         visibilityPassword

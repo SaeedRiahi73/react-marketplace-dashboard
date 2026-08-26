@@ -5,8 +5,11 @@ import useAddProduct from "@/hooks/useAddProduct";
 import DetailProduct from "@/components/contentProducts/DetailProduct";
 import ImageProduct from "@/components/contentProducts/ImageProduct";
 import { FormProvider } from "react-hook-form";
+import useHasPermission from "@/hooks/useHasPermission";
+import { permissionEnum } from "@/enums/permissionEnum";
 
 const AddProduct: React.FC = () => {
+  const canCreateProduct = useHasPermission(permissionEnum.CreateProduct);
 
   const {
     methods,
@@ -39,11 +42,14 @@ const AddProduct: React.FC = () => {
         </div>
         <FormProvider {...methods}>
         <form
-          onSubmit={methods.handleSubmit(onSubmit)}
+          onSubmit={canCreateProduct
+            ? methods.handleSubmit(onSubmit)
+            : (event) => event.preventDefault()
+          }
           className="tablet:grid tablet:grid-cols-12"
         >
-          <DetailProduct/>
-          <ImageProduct error={error} handleFileChange={handleFileChange} handleRemoveImage={handleRemoveImage} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} status={status}/>
+          <DetailProduct canSubmit={canCreateProduct} />
+          <ImageProduct error={error} handleFileChange={handleFileChange} handleRemoveImage={handleRemoveImage} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} status={status} canSubmit={canCreateProduct} />
         </form>
         </FormProvider>
       </div>

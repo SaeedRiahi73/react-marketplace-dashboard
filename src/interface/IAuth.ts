@@ -1,9 +1,14 @@
-export interface Itoken {
+import { userRoleEnum } from "@/enums/userRoleEnum";
+
+export interface IAuthSession {
     token: string,
-    // isLoading: boolean
+    userName: string,
+    roleId: number,
+    role: userRoleEnum,
+    expireAt: string
 }
 
 export interface IAuthState {
-    token: Itoken,
+    session: IAuthSession | null,
     logoutOpenDialog: boolean
 }

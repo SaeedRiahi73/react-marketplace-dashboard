@@ -13,6 +13,8 @@ const FormLogin = () => {
   const {
     canEnter,
     formik,
+    handleDemoLogin,
+    isDemoLoginLoading,
     isLoading,
     setVisibilityPassword,
     visibilityPassword
@@ -125,13 +127,32 @@ const FormLogin = () => {
 
                 <div className="w-full">
                   <button
-                    disabled={!canEnter}
-                    className={`w-full text-selfit-800 text-H5/Semibold py-1 rounded-lg transition ${canEnter
+                    disabled={!canEnter || isDemoLoginLoading}
+                    className={`w-full text-selfit-800 text-H5/Semibold py-1 rounded-lg transition ${canEnter && !isDemoLoginLoading
                       ? "bg-selfit-500 hover:bg-selfit-600"
                       : "bg-lightGray-100"
                       }`}
                   >
                     ورود به داشبورد
+                  </button>
+                </div>
+
+                <div className="flex w-full items-center gap-3 text-lightGray-500">
+                  <span className="h-px flex-1 bg-lightGray-200" />
+                  <span className="text-H6/Regular">یا</span>
+                  <span className="h-px flex-1 bg-lightGray-200" />
+                </div>
+
+                <div className="w-full">
+                  <button
+                    type="button"
+                    onClick={handleDemoLogin}
+                    disabled={isDemoLoginLoading || isLoading}
+                    className="w-full rounded-lg border border-selfit-500 bg-white py-1 text-H5/Semibold text-selfit-700 transition hover:bg-selfit-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {isDemoLoginLoading
+                      ? "در حال ورود..."
+                      : "مشاهده نسخه آزمایشی"}
                   </button>
                 </div>
               </div>

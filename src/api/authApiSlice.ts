@@ -81,7 +81,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: userLogin,
             }),
         }),
+        demoLogin: builder.mutation<IApiResponseLogin, void>({
+            query: () => ({
+                url: "/api/Auth/DemoLogin",
+                method: "POST",
+            }),
+        }),
     }),
 });
 
-export const { useLoginMutation } = authApiSlice;
+export const { useLoginMutation, useDemoLoginMutation } = authApiSlice;

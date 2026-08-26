@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAuthState } from "../interface/IAuth";
-import Cookies from "js-cookie";
+import { clearAuthSession, getAuthSession } from "@/utility/authSessionStorage";
+import { IAuthSession } from "@/interface/IAuth";
+import type { RootState } from "@/app/store";
 
 
 const initialState: IAuthState = {
-    token: {
-        token: sessionStorage.getItem("token") || "",
-        // isLoading: false
-    },
+    session: getAuthSession(),
     logoutOpenDialog: false
 }
 
@@ -15,22 +14,27 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setToken(state, action: PayloadAction<string>) {
-            state.token.token = action.payload as string;
-            // state.token.isLoading = false;
+        setSession(state, action: PayloadAction<IAuthSession>) {
+            state.session = action.payload;
         },
         // setIsLoading(state, action: PayloadAction<boolean>) {
         //     state.token.isLoading = action.payload;
         // },
         logout(state) {
-            state.token.token = "";
-            sessionStorage.removeItem('token');
-            Cookies.remove('token', { path: '/' });
+            state.session = null;
+            clearAuthSession();
         }
     }
 })
 
-export const { setToken, logout } = authSlice.actions;
+export const { setSession, logout } = authSlice.actions;
+
+export const selectAuthSession = (state: RootState): IAuthSession | null =>
+    state.auth.session;
+
+export const selectCurrentUserRole = (state: RootState) =>
+    state.auth.session?.role ?? null;
+
 export default authSlice.reducer;
 
 // export const getIsLoading = (state: RootState): boolean => state.auth.token.isLoading;

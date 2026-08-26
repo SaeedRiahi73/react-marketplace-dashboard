@@ -5,10 +5,13 @@ import useEditProduct from "@/hooks/useEditProduct";
 import { FormProvider } from "react-hook-form";
 import DetailProduct from "@/components/contentProducts/DetailProduct";
 import ImageProduct from "@/components/contentProducts/ImageProduct";
+import useHasPermission from "@/hooks/useHasPermission";
+import { permissionEnum } from "@/enums/permissionEnum";
 
 
 
 const EditProduct: React.FC = () => {
+  const canEditProduct = useHasPermission(permissionEnum.EditProduct);
 
   const {
     methods,
@@ -36,11 +39,14 @@ const EditProduct: React.FC = () => {
         </div>
         <FormProvider {...methods}>
           <form
-            onSubmit={methods.handleSubmit(onSubmit)}
+            onSubmit={canEditProduct
+              ? methods.handleSubmit(onSubmit)
+              : (event) => event.preventDefault()
+            }
             className="tablet:grid tablet:grid-cols-12"
           >
-            <DetailProduct />
-            <ImageProduct error={error} handleFileChange={handleFileChange} handleRemoveImage={handleRemoveImage} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} status={status} />
+            <DetailProduct canSubmit={canEditProduct} />
+            <ImageProduct error={error} handleFileChange={handleFileChange} handleRemoveImage={handleRemoveImage} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} status={status} canSubmit={canEditProduct} />
           </form>
         </FormProvider>
       </div>

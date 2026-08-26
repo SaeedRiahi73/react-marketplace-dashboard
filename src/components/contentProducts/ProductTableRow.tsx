@@ -16,7 +16,6 @@ const ProductTableRow: React.FC<IProductCardAndTableProps> = ({
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL_localhostApi;
   const fullImageUrl = item.image ? `${BASE_URL}${item.image}` : "/default-placeholder.png";
-  console.log(fullImageUrl);
   
   return (
     <TableRow className="bg-white hover:bg-gray-50 h-fit gap-0 border-gray-200 max-h-16">

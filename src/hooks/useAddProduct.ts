@@ -105,8 +105,8 @@ const useAddProduct = (): IUseAddProductReturn => {
             }
             dispatch(setToastMessage(toast));
             navigate("/");
-        } catch (error) {
-            console.log("khata" + error);
+        } catch {
+            // پیام خطای API به‌صورت سراسری در apiSlice نمایش داده می‌شود.
         }
     };
 
