@@ -6,11 +6,16 @@ import ConfirmDeleteProduct from "./ConfirmDeleteProduct";
 import IconTrash_can from "../icons/IconTrash-can";
 import { typeIconEnum } from "@/enums/styleIconEnum";
 import IconEdit from "../icons/IconEdit";
+import { statusProductEnum } from "@/enums/statusProductEnum";
 
 const ProductCard: React.FC<IProductCardAndTableProps> = ({
   product: item,
 }) => {
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_BASE_URL_localhostApi;
+  const fullImageUrl = item.image
+    ? `${baseUrl}${item.image}`
+    : "/default-placeholder.png";
 
   return (
     <div className="flex flex-col tablet:hidden overflow-auto">
@@ -19,18 +24,18 @@ const ProductCard: React.FC<IProductCardAndTableProps> = ({
         <div className="flex flex-row items-center gap-2 w-full h-11">
           <div className="w-10 h-10 bg-lightGray-100 border border-lightGray-100 rounded-md flex justify-center items-center">
             <img
-              src={item.fileUrl?.toString()}
-              alt={item.title || "No Image"}
+              src={fullImageUrl}
+              alt={item.name || "No Image"}
               onError={handleImageError}
               className="w-full h-full object-cover rounded-md"
             />
           </div>
           <div className="flex flex-col justify-center gap-1 w-56">
             <h5 className="text-Heading/H5/Medium text-lightGray-900">
-              {item.title}
+              {item.name}
             </h5>
             <p className="text-Paragraph/X Small/Regular text-lightGray-700">
-              {item.publicId}
+              {item.description}
             </p>
           </div>
         </div>
@@ -47,7 +52,7 @@ const ProductCard: React.FC<IProductCardAndTableProps> = ({
             </div>
             <div className="justify-end">
               <p className="text-XSmall/Medium text-lightGray-900">
-                {customFormatMoney(item.amount)}
+                {customFormatMoney(item.price)}
               </p>
             </div>
           </div>
@@ -67,20 +72,22 @@ const ProductCard: React.FC<IProductCardAndTableProps> = ({
               <h6 className="text-H6/Medium">
                 {" "}
                 <Badge
-                  className={`px-4 py-2 ${item.status === "Active"
-                      ? "bg-selfit-50 text-selfit-600"
-                      : item.status === "DeActive"
-                        ? "bg-lightGray-50 text-lightGray-600"
-                        : "bg-Error-50 text-Error-600"
+                  className={`px-4 py-2 ${item.quantity === 0
+                      ? "bg-Error-50 text-Error-600"
+                      : item.status === statusProductEnum.Active
+                        ? "bg-selfit-50 text-selfit-600"
+                        : "bg-lightGray-50 text-lightGray-600"
                     }`}
                   variant={"default"}
                 >
                   <h6 className="text-H6/Medium">
-                    {item.status === "Active"
-                      ? "فعال"
-                      : item.status === "DeActive"
-                        ? "غیر فعال"
-                        : "حذف شده"}
+                    {item.quantity === 0
+                      ? "ناموجود"
+                      : item.status === statusProductEnum.Active
+                        ? "فعال"
+                        : item.status === statusProductEnum.DeActive
+                          ? "غیر فعال"
+                          : "نامشخص"}
                   </h6>
                 </Badge>
               </h6>
@@ -88,11 +95,10 @@ const ProductCard: React.FC<IProductCardAndTableProps> = ({
           </div>
         </div>
 
-        {/* Delete Button */}
-        <div className="flex flex-row gap-2">
-          <ConfirmDeleteProduct id={item.id} className="w-1/2">
-            {" "}
-            <Button className="flex-1 flex-row justify-center items-center gap-3 w-full h-10 bg-Error-25 text-Error-500 font-semibold rounded-md hover:bg-red-100 transition">
+          {/* Delete Button */}
+          <div className="flex flex-row gap-2">
+            <ConfirmDeleteProduct id={item.id} className="w-1/2">
+              <Button className="flex-1 flex-row justify-center items-center gap-3 w-full h-10 bg-Error-25 text-Error-500 font-semibold rounded-md hover:bg-red-100 transition">
               <IconTrash_can
                 typeIcon={typeIconEnum.Reqular}
                 className={"fill-Error-500"}

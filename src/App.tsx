@@ -1,8 +1,14 @@
 import { RouterProvider } from "react-router-dom";
 import { Router } from "./router/Router";
 import { Toaster } from "react-hot-toast";
+import Spinner from "@/components/shared/Snipper";
+import useAuthInitializer from "@/hooks/useAuthInitializer";
+import useToastNotification from "@/hooks/useToastNotification";
 
 function App() {
+  const isAuthInitialized = useAuthInitializer();
+  useToastNotification();
+
   return (
     <>
       <Toaster
@@ -32,7 +38,11 @@ function App() {
           },
         }}
       />
-      <RouterProvider router={Router} />
+      {isAuthInitialized ? (
+        <RouterProvider router={Router} />
+      ) : (
+        <Spinner text="لطفاً صبر کنید..." overlay />
+      )}
     </>
   );
 }

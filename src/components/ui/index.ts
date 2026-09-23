@@ -6,6 +6,14 @@ export { default as ColumnSelector } from "./columnSelector ";
 export { default as Checkbox } from "./checkbox";
 export { default as Selected } from "./selected";
 export { Badge, badgeVariants } from "./badge";
+export {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    CardFooter,
+} from "./card";
 export { Label } from "./label";
 export { Textarea } from "./textarea";
 export {

@@ -1,22 +1,30 @@
-import { isMobileSelector, setIsMobile } from "@/features/viewportSlice";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
+const getMobileMediaQuery = (breakpoint: number): MediaQueryList =>
+  window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+
+const getIsMobile = (breakpoint: number): boolean => {
+  if (typeof window === "undefined") return false;
+
+  return getMobileMediaQuery(breakpoint).matches;
+};
 
 const useIsMobile = (breakpoint = 768): boolean => {
-  const dispatch = useDispatch();
-  const isMobile = useSelector(isMobileSelector);
+  const [isMobile, setIsMobile] = useState(() => getIsMobile(breakpoint));
 
   useEffect(() => {
-    // مقدار اولیه درست
-    dispatch(setIsMobile(window.innerWidth < breakpoint));
+    const mediaQuery = getMobileMediaQuery(breakpoint);
 
-    const handleResize = () => {
-      dispatch(setIsMobile(window.innerWidth < breakpoint));
+    const handleChange = (event: MediaQueryListEvent) => {
+      setIsMobile(event.matches);
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [breakpoint, dispatch]);
+    // اگر breakpoint در زمان اجرا تغییر کند، state با query جدید هماهنگ می‌شود.
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [breakpoint]);
 
   return isMobile;
 };

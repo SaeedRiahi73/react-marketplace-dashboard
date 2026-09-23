@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import NavbarAddAndEditProduct from "@/components/shared/NavbarAddAndEditProduct";
+import DashboardNavbar from "@/components/shared/DashboardNavbar";
 import Spinner from "@/components/shared/Snipper";
 import useEditProduct from "@/hooks/useEditProduct";
 import { FormProvider } from "react-hook-form";
@@ -31,12 +31,13 @@ const EditProduct: React.FC = () => {
       <Helmet>
         <title>Add Product</title>
       </Helmet>
-      <NavbarAddAndEditProduct title={"ویرایش"} subTitle={"ویرایش محصول"} />
+      <DashboardNavbar
+        title="ویرایش"
+        subTitle="ویرایش محصول"
+        backLabel="بازگشت به محصولات"
+        backPath="/"
+      />
       <div className="flex flex-col bg-lightGray-50 ">
-        <div className="flex flex-col gap-2 m-3 tablet:hidden">
-          <h3 className="text-H3/Bold">ویرایش</h3>
-          <h5 className="text-H5/Regular text-lightGray-600">ویرایش محصول</h5>
-        </div>
         <FormProvider {...methods}>
           <form
             onSubmit={canEditProduct

@@ -1,10 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Sidbar from "../components/contentSidbar/Sidbar";
 import useIsLogin from "@/hooks/useIsLogin";
+import useIsMobile from "@/hooks/useIsMobile";
 import DemoModeBanner from "@/components/shared/DemoModeBanner";
 
 const MainLayout: React.FC = () => {
   const isLogin = useIsLogin();
+  const isMobile = useIsMobile();
 
   if (!isLogin) {
     return <Navigate to="/login" replace />;
@@ -13,9 +15,11 @@ const MainLayout: React.FC = () => {
   return (
     <div className="h-screen tablet:overflow-hidden">
       <div className="flex flex-row w-full">
-        <div className="hidden tablet:flex tablet:w-1/5 h-screen border">
-          <Sidbar />
-        </div>
+        {!isMobile && (
+          <div className="flex h-screen w-1/5 border">
+            <Sidbar />
+          </div>
+        )}
         <div className="flex flex-grow bg-lightGray-50 h-screen">
           {/* <Navbar /> */}
           <main className="flex flex-col w-full">

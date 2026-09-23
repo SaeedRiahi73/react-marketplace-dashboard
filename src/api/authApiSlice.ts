@@ -70,24 +70,43 @@
 
 
 import { apiSlice } from "./apiSlice";
-import { IApiResponseLogin, IUserlogin } from "../interface/Ilogin";
+import { IUserlogin } from "../interface/Ilogin";
+import { IAuthResponse } from "@/interface/IAuth";
+import { IResultInfo } from "@/interface/IResultInfo";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        login: builder.mutation<IApiResponseLogin, IUserlogin>({
+        login: builder.mutation<IAuthResponse, IUserlogin>({
             query: (userLogin) => ({
                 url: "/api/Auth/login",
                 method: "POST",
                 body: userLogin,
             }),
         }),
-        demoLogin: builder.mutation<IApiResponseLogin, void>({
+        demoLogin: builder.mutation<IAuthResponse, void>({
             query: () => ({
                 url: "/api/Auth/DemoLogin",
+                method: "POST",
+            }),
+        }),
+        refreshToken: builder.mutation<IAuthResponse, void>({
+            query: () => ({
+                url: "/api/Auth/refresh-token",
+                method: "POST",
+            }),
+        }),
+        logout: builder.mutation<IResultInfo<boolean>, void>({
+            query: () => ({
+                url: "/api/Auth/logout",
                 method: "POST",
             }),
         }),
     }),
 });
 
-export const { useLoginMutation, useDemoLoginMutation } = authApiSlice;
+export const {
+    useLoginMutation,
+    useDemoLoginMutation,
+    useRefreshTokenMutation,
+    useLogoutMutation,
+} = authApiSlice;

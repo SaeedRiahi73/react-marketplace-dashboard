@@ -1,32 +1,34 @@
 import { Helmet } from "react-helmet";
 import ProductTable from "@/components/contentProducts/ProductTable";
 import ProductCards from "@/components/contentProducts/ProductCards";
-import Pagination from "@/components/contentProducts/Pagination";
-import NavbarProduct from "@/components/shared/NavbarProduct";
+import ProductPagination from "@/components/contentProducts/ProductPagination";
+import DashboardNavbar from "@/components/shared/DashboardNavbar";
 import FilterProduct from "@/components/contentProducts/FilterProduct";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useNavigate } from "react-router-dom";
 
 const Products: React.FC = () => {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
+
   return (
     <>
       <Helmet>
         <title>Dashbord</title>
       </Helmet>
-      <NavbarProduct />
+      <DashboardNavbar
+        title="محصولات"
+        subTitle="مدیریت محصولات سلفیت"
+        actionLabel="اضافه کردن محصول"
+        onAction={() => navigate("/addProduct")}
+      />
       <div className=" flex flex-col">
-        <div className="flex flex-col gap-2 m-3 tablet:hidden">
-          <h3 className="text-H3/Bold">محصولات</h3>
-          <h5 className="text-H5/Regular text-lightGray-600">
-            مدیریت محصولات سلفیت
-          </h5>
-        </div>
         <div className="bg-white rounded-xl flex flex-col p-2 m-2 gap-6 tablet:m-8 tablet:gap-6">
           <FilterProduct />
           {/* mobile */}
           {/* desktop */}
           {isMobile ? <ProductCards /> : <ProductTable />}
-          <Pagination />
+          <ProductPagination />
         </div>
       </div>
     </>

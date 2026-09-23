@@ -3,5 +3,11 @@ export enum permissionEnum {
     CreateProduct = "CreateProduct",
     EditProduct = "EditProduct",
     DeleteProduct = "DeleteProduct",
-    ManageUsers = "ManageUsers",
+    ViewUsers = "ViewUsers",
+    ViewOwnProfile = "ViewOwnProfile",
+    EditOwnProfile = "EditOwnProfile",
+    ChangeOwnPassword = "ChangeOwnPassword",
+    ViewUserDetails = "ViewUserDetails",
+    CreateUser = "CreateUser",
+    ChangeUserStatus = "ChangeUserStatus",
 }

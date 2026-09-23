@@ -8,11 +8,10 @@ const ProductCards: React.FC = () => {
   const dataProduct: IProduct[] = useSelector((state: RootState) =>
     getFilteredProduct(state)
   );
-  console.log(`data: ${dataProduct}`)
   return (
     <>
-      {dataProduct.map((product, index) => (
-        <ProductCard key={index} product={product} />
+      {dataProduct.map((product) => (
+        <ProductCard key={product.id} product={product} />
       ))}
     </>
   );

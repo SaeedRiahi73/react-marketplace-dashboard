@@ -1,4 +1,5 @@
 import { userRoleEnum } from "@/enums/userRoleEnum";
+import { IResultInfo } from "@/interface/IResultInfo";
 
 export interface IAuthSession {
     token: string,
@@ -8,7 +9,10 @@ export interface IAuthSession {
     expireAt: string
 }
 
+export interface IAuthResponse extends IResultInfo<IAuthSession> {}
+
 export interface IAuthState {
     session: IAuthSession | null,
+    isAuthInitialized: boolean,
     logoutOpenDialog: boolean
 }

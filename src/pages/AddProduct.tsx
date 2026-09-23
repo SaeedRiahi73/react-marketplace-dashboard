@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import NavbarAddAndEditProduct from "@/components/shared/NavbarAddAndEditProduct";
+import DashboardNavbar from "@/components/shared/DashboardNavbar";
 import Spinner from "@/components/shared/Snipper";
 import useAddProduct from "@/hooks/useAddProduct";
 import DetailProduct from "@/components/contentProducts/DetailProduct";
@@ -29,17 +29,13 @@ const AddProduct: React.FC = () => {
       <Helmet>
         <title>Add Product</title>
       </Helmet>
-      <NavbarAddAndEditProduct
+      <DashboardNavbar
         title="اضافه کردن محصول"
-        subTitle={"اضافه کردن محصول جدید"}
+        subTitle="اضافه کردن محصول جدید"
+        backLabel="بازگشت به محصولات"
+        backPath="/"
       />
       <div className="flex flex-col bg-lightGray-50 ">
-        <div className="flex flex-col gap-2 m-3 tablet:hidden">
-          <h3 className="text-H3/Bold"> اضافه کردن محصول</h3>
-          <h5 className="text-H5/Regular text-lightGray-600">
-            اضافه کردن محصول جدید
-          </h5>
-        </div>
         <FormProvider {...methods}>
         <form
           onSubmit={canCreateProduct

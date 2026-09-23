@@ -5,8 +5,6 @@ import IconEye_slash from "../../components/icons/IconEye-slash";
 import IconUser from "../../components/icons/IconUser";
 import IconKey from "../../components/icons/IconKey";
 import Spinner from "../shared/Snipper";
-import { Alert, AlertDescription, AlertTitle } from "../ui";
-import { Smile } from "lucide-react";
 import useLoginForm from "@/hooks/useLoginForm";
 
 const FormLogin = () => {

@@ -10,12 +10,17 @@ import {
   DialogTrigger,
 } from "../ui";
 
-const Confirm: React.FC<IConfirmProps> = ({ button, title, content,confirm }) => {
+const Confirm: React.FC<IConfirmProps> = ({
+  button,
+  title,
+  content,
+  confirm,
+  open,
+  onOpenChange,
+}) => {
   return (
-    <Dialog>
-      <DialogTrigger>
-        {button} {/* Directly pass the button without wrapping */}
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {button && <DialogTrigger asChild>{button}</DialogTrigger>}
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -26,14 +31,25 @@ const Confirm: React.FC<IConfirmProps> = ({ button, title, content,confirm }) =>
           </div>
         </div>
         <DialogFooter className="sm:justify-start">
-          <DialogClose  className="flex flex-row justify-end gap-2">
-            <Button type="button" className="bg-white border rounded-lg text-lightGray-900">
-              انصراف
-            </Button>
-            <Button type="button" className="bg-Error-500 text-white" onClick={()=>confirm()}>
-              بله
-            </Button>
-          </DialogClose>
+          <div className="flex flex-row justify-end gap-2">
+            <DialogClose asChild>
+              <Button
+                type="button"
+                className="bg-white border rounded-lg text-lightGray-900"
+              >
+                انصراف
+              </Button>
+            </DialogClose>
+            <DialogClose asChild>
+              <Button
+                type="button"
+                className="bg-Error-500 text-white"
+                onClick={confirm}
+              >
+                بله
+              </Button>
+            </DialogClose>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

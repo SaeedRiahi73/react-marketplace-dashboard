@@ -1,6 +1,4 @@
 import { FormikProps } from "formik";
-import { IAuthSession } from "@/interface/IAuth";
-import { IResultInfo } from "@/interface/IResultInfo";
 
 
 export interface IUserlogin {
@@ -8,8 +6,6 @@ export interface IUserlogin {
     password: string,
     rememberMe: boolean
 }
-
-export interface IApiResponseLogin extends IResultInfo<IAuthSession> {}
 
 export interface IUseLoginFormReturn{
     visibilityPassword:boolean ,

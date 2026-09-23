@@ -40,26 +40,27 @@ const readAuthSession = (storage: Storage): IAuthSession | null => {
     return null;
 };
 
-export const saveAuthSession = (
-    session: IAuthSession,
-    rememberMe: boolean,
-): void => {
-    const serializedSession = JSON.stringify(session);
+export const saveDemoAuthSession = (session: IAuthSession): void => {
+    localStorage.removeItem(AUTH_SESSION_KEY);
 
-    if (rememberMe) {
-        localStorage.setItem(AUTH_SESSION_KEY, serializedSession);
+    if (session.role !== userRoleEnum.Demo) {
         sessionStorage.removeItem(AUTH_SESSION_KEY);
         return;
     }
 
-    sessionStorage.setItem(AUTH_SESSION_KEY, serializedSession);
-    localStorage.removeItem(AUTH_SESSION_KEY);
+    sessionStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
 };
 
-export const getAuthSession = (): IAuthSession | null => {
-    const temporarySession = readAuthSession(sessionStorage);
+export const getDemoAuthSession = (): IAuthSession | null => {
+    localStorage.removeItem(AUTH_SESSION_KEY);
+    const session = readAuthSession(sessionStorage);
 
-    return temporarySession ?? readAuthSession(localStorage);
+    if (session?.role === userRoleEnum.Demo) {
+        return session;
+    }
+
+    sessionStorage.removeItem(AUTH_SESSION_KEY);
+    return null;
 };
 
 export const clearAuthSession = (): void => {
