@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/authSlice";
 import filterReducer from "../features/filterSlice";
-import viewportReducer  from "@/features/viewportSlice";
-import { authApiSlice } from "../api/authApiSlice";
-import { productApiSlice } from "@/api/productApiSlice";
+// import { authApiSlice } from "../api/authApiSlice";
+// import { productApiSlice } from "@/api/productApiSlice";
 import toastReducer from "@/features/toastSlice";
 import { apiSlice } from "@/api/apiSlice";
 
@@ -12,7 +11,6 @@ export const store = configureStore({
         auth: authReducer,
         filter: filterReducer,
         toast: toastReducer,
-        viewport: viewportReducer,
         [apiSlice.reducerPath]: apiSlice.reducer,
         // [authApiSlice.reducerPath]: authApiSlice.reducer,
         // [productApiSlice.reducerPath]: productApiSlice.reducer,

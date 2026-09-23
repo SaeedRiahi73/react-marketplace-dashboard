@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAuthState } from "../interface/IAuth";
-import { clearAuthSession, getAuthSession } from "@/utility/authSessionStorage";
+import { clearAuthSession, getDemoAuthSession } from "@/utility/authSessionStorage";
 import { IAuthSession } from "@/interface/IAuth";
 import type { RootState } from "@/app/store";
 
 
 const initialState: IAuthState = {
-    session: getAuthSession(),
+    session: getDemoAuthSession(),
+    isAuthInitialized: false,
     logoutOpenDialog: false
 }
 
@@ -16,6 +17,9 @@ const authSlice = createSlice({
     reducers: {
         setSession(state, action: PayloadAction<IAuthSession>) {
             state.session = action.payload;
+        },
+        setAuthInitialized(state, action: PayloadAction<boolean>) {
+            state.isAuthInitialized = action.payload;
         },
         // setIsLoading(state, action: PayloadAction<boolean>) {
         //     state.token.isLoading = action.payload;
@@ -27,7 +31,7 @@ const authSlice = createSlice({
     }
 })
 
-export const { setSession, logout } = authSlice.actions;
+export const { setSession, setAuthInitialized, logout } = authSlice.actions;
 
 export const selectAuthSession = (state: RootState): IAuthSession | null =>
     state.auth.session;

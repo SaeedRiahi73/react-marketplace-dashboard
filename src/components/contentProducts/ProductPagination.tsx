@@ -2,8 +2,7 @@ import NumberOfRowsPerPage from "./NumberOfRowsPerPage";
 import PaginationManagement from "./PaginationManagement";
 import usePagination from "@/hooks/usePagination";
 
-const Pagination: React.FC = () => {
-
+const ProductPagination: React.FC = () => {
   const {
     pageCount,
     currentProductCount,
@@ -15,7 +14,7 @@ const Pagination: React.FC = () => {
     handleNextPage,
     handlePreviousPage,
     handleFirstPage,
-    handleLastPage
+    handleLastPage,
   } = usePagination();
 
   return (
@@ -39,4 +38,4 @@ const Pagination: React.FC = () => {
   );
 };
 
-export default Pagination;
+export default ProductPagination;

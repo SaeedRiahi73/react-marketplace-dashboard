@@ -1,13 +1,21 @@
-const LogoSidbar: React.FC = () => {
+import { ILogoSidbarProps } from "@/interface/IProps";
+
+const LogoSidbar: React.FC<ILogoSidbarProps> = ({ mobile = false }) => {
   return (
-    <div className="mx-auto border w-full">
+    <div
+      className={
+        mobile
+          ? "flex w-full justify-center border-b border-lightGray-100 py-3"
+          : "mx-auto w-full border"
+      }
+    >
       <svg
         width="112"
         height="46"
         viewBox="0 0 112 46"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="mx-auto my-4"
+        className={mobile ? "" : "mx-auto my-4"}
       >
         <path
           fillRule="evenodd"

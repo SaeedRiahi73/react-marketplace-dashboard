@@ -10,7 +10,6 @@ import { formSchema } from "@/validation/addProductValidation";
 import toast from "react-hot-toast";
 import { productFormvalue } from "@/type/types";
 import { statusProductEnum } from "@/enums/statusProductEnum";
-import { noPhoto } from "@/assets/image";
 
 const useEditProduct = () => {
     const [error, setError] = useState<string>("");

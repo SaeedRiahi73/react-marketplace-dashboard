@@ -66,7 +66,7 @@ export interface IUseAddProductReturn {
 }
 
 export interface IConfirmDeleteProductProps {
-  children: React.ReactNode,
+  children: React.ReactElement,
   id: string,
   className?: string
 }

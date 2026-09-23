@@ -16,7 +16,7 @@ const ProductTable: React.FC = () => {
   const dataProduct: IProduct[] = useSelector((state: RootState) =>
     getFilteredProduct(state)
   );
-  console.log(dataProduct);
+  console.log("productTable :" + dataProduct);
   const SelectedColumns = useSelector((state: RootState) =>
     getSelectedColumns(state)
   );

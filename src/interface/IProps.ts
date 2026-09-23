@@ -1,9 +1,22 @@
 import React, { ReactNode } from "react";
 import { IProduct } from "./IProduct";
 import { SelectedColumnsState } from "@/type/types";
+import { permissionEnum } from "@/enums/permissionEnum";
+import {
+  ICurrentUserProfile,
+  IUserBase,
+  IUserDetail,
+  IUserListItem,
+  IUserProfileFields,
+} from "./IUser";
 
 export interface IPropsChildren {
   children: ReactNode
+}
+
+export interface IPermissionRouteProps {
+  children: React.ReactElement,
+  permission: permissionEnum
 }
 
 export interface IProductTableAndCardProps {
@@ -30,10 +43,12 @@ export interface INvabarAddAndEditProps {
 }
 
 export interface IConfirmProps {
-  button: React.ReactElement,
+  button?: React.ReactElement,
   title: string,
   content: string,
-  confirm: () => void
+  confirm: () => void,
+  open?: boolean,
+  onOpenChange?: (open: boolean) => void
 }
 
 export interface IColumnSelectorProps {
@@ -63,11 +78,52 @@ export interface PaginationManagementProps {
   handleLastPage: () => void
 }
 
-export interface INavbarProduct{
-  handleLogout:()=>void,
-  onAddProduct:()=>void
+export interface IDashboardNavbarProps {
+  title: string;
+  subTitle: string;
+  actionLabel?: string;
+  onAction?: () => void;
+  actionDisabled?: boolean;
+  actionDisabledTitle?: string;
+  backLabel?: string;
+  backPath?: string;
+  onBack?: () => void;
 }
 
-export interface INavbarProductMobileProps extends INavbarProduct{}
+export interface IDashboardNavbarDesktopProps extends IDashboardNavbarProps {}
 
-export interface INavbarProductDesktopProps extends Pick<INavbarProduct,"onAddProduct">{}
+export interface IDashboardNavbarMobileProps extends IDashboardNavbarProps {}
+
+export interface ILogoSidbarProps {
+  mobile?: boolean;
+}
+
+export interface IUserAccountDetailsCardProps {
+  user: IUserBase & IUserProfileFields;
+  caption: string;
+  detailsTitle: string;
+  detailsDescription: string;
+  actions?: ReactNode;
+}
+
+export interface IUsersTableProps {
+  users: IUserListItem[];
+}
+
+export interface IUsersMobileListProps {
+  users: IUserListItem[];
+}
+
+export interface IChangePasswordFormProps {
+  onCancel: () => void;
+}
+
+export interface IUserProfileDetailsProps {
+  profile: ICurrentUserProfile;
+  onEditProfile?: () => void;
+  onChangePassword?: () => void;
+}
+
+export interface IUserDetailsCardProps {
+  user: IUserDetail;
+}

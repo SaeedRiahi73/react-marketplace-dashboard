@@ -1,21 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logout } from "@/features/authSlice";
+import { Link } from "react-router-dom";
 import { typeIconEnum } from "../../enums/styleIconEnum";
-import IconBox_archive from "../icons/IconBox-archive";
 import IconDoor_open from "../icons/IconDoor-open";
 import IconGear from "../icons/IconGear";
 import IconGrid_2 from "../icons/IconGrid-2";
 import Confirm from "../shared/Confirm";
+import useLogout from "@/hooks/useLogout";
+import useNavigationItems from "@/hooks/useNavigationItems";
+import { IActiveNavigationItem } from "@/interface/INavigation";
 
 const ContentSidbar = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { handleLogout } = useLogout();
+  const visibleItems : IActiveNavigationItem[] = useNavigationItems();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
-  };
   return (
     <div className="mt-3 w-full h-full">
       <div className="flex flex-col gap-2 bg-white">
@@ -28,17 +24,37 @@ const ContentSidbar = () => {
           <span className="text-lightGray-700">پیشخوان</span>
         </div>
 
-        {/* <!-- All Products Tab --> */}
-        <div
-          className="flex items-center h-full space-x-2  gap-3 p-2 border-r-[6px] rounded-sm border-selfit-500 cursor-pointer"
-          onClick={() => navigate("/")}
-        >
-          <IconBox_archive
-            typeIcon={typeIconEnum.Reqular}
-            className="fill-selfit-700"
-          />
-          <span className="text-selfit-600 font-medium">همه محصولات</span>
-        </div>
+        {visibleItems.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <Link
+              key={item.id}
+              to={item.to}
+              className={`flex h-full items-center gap-3 rounded-sm border-r-[6px] p-2 ${
+                item.isActive ? "border-selfit-500" : "border-white"
+              }`}
+            >
+              <Icon
+                size={20}
+                strokeWidth={1.8}
+                className={
+                  item.isActive ? "text-selfit-700" : "text-lightGray-700"
+                }
+                aria-hidden="true"
+              />
+              <span
+                className={
+                  item.isActive
+                    ? "font-medium text-selfit-600"
+                    : "text-lightGray-700"
+                }
+              >
+                {item.label}
+              </span>
+            </Link>
+          );
+        })}
 
         {/* <!-- Divider --> */}
         <div className="border-b border-gray-300 my-2"></div>

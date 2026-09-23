@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginSchema } from "@/validation/loginValidation";
 import { setSession } from "@/features/authSlice";
-import { saveAuthSession } from "@/utility/authSessionStorage";
+import { clearAuthSession, saveDemoAuthSession } from "@/utility/authSessionStorage";
 
 
 const useLoginForm = (): IUseLoginFormReturn => {
@@ -32,7 +32,7 @@ const useLoginForm = (): IUseLoginFormReturn => {
                 const result = await login(values).unwrap();
 
                 if (result.isSuccess) {
-                    saveAuthSession(result.data, values.rememberMe);
+                    clearAuthSession();
                     dispatch(setSession(result.data));
 
                     navigate("/");
@@ -60,7 +60,7 @@ const useLoginForm = (): IUseLoginFormReturn => {
             const result = await demoLogin().unwrap();
 
             if (result.isSuccess) {
-                saveAuthSession(result.data, false);
+                saveDemoAuthSession(result.data);
                 dispatch(setSession(result.data));
                 navigate("/");
                 return;
